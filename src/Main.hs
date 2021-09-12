@@ -17,3 +17,4 @@ main = do
       events = defaultEvents
       subs   = [ keyboardSub Keyboard ]
       mountPoint = Nothing
+      logLevel = Off
