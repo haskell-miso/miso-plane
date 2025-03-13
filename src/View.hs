@@ -8,9 +8,9 @@ import           Constants
 import           Model
 
 mainView :: Model -> View Action
-mainView m@Model{..} = wrapper [ div_ [ style_ style, onClick Touched ] content ]
+mainView m@Model{..} = wrapper [ div_ [ style_ style', onClick Touched ] content ]
   where
-    style = M.fromList
+    style' = M.fromList
       [ ("width", (ms gameWidth) <> "px")
       , ("height", (ms gameHeight) <> "px")
       , ("overflow", "hidden")
@@ -52,9 +52,9 @@ messageView Model{..} = case state of
   _        -> emptyView
 
 scoreView :: Model -> View action
-scoreView Model{..} = p_ [ style_ style ] [ text (ms score) ]
+scoreView Model{..} = p_ [ style_ style' ] [ text (ms score) ]
   where
-    style = M.fromList
+    style' = M.fromList
       [ ("display", "block")
       , ("height", "50px")
       , ("text-align", "center")
