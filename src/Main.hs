@@ -9,12 +9,7 @@ import           View
 main :: IO ()
 main = do
   initialTime <- now
-  startApp App { initialAction = Time initialTime, .. }
-    where
-      update = updateModel
-      model  = initialModel
-      view   = mainView
-      events = defaultEvents
-      subs   = [ keyboardSub Keyboard ]
-      mountPoint = Nothing
-      logLevel = Off
+  startApp (defaultApp initialModel updateModel mainView)
+    { subs = [ keyboardSub Keyboard ]
+    , initialAction = Just (Time initialTime)
+    }
