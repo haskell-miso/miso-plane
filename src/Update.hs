@@ -1,24 +1,31 @@
+{-# LANGUAGE LambdaCase #-}
 module Update where
 
+import           Control.Monad.State hiding ( state )
 import           Data.Function
-import qualified Data.Set      as S
+import qualified Data.Set as S
 import           Miso
 import           System.Random
 
 import           Constants
 import           Model
 
-updateModel :: Action -> Model -> Effect Action Model
-updateModel action m@Model{..} = case action of
-  Time newTime      -> step newTime m
-  Keyboard keys     -> if S.member 32 keys then noEff (jump m) else noEff m
-  Touched           -> noEff (jump m)
-  NewPillars height -> noEff m { pillars = generatePillars height <> pillars }
+updateModel :: Action -> Effect Model Action ()
+updateModel = \case
+  Time newTime ->
+    get >>= step newTime
+  Keyboard keys
+    | S.member 32 keys -> modify jump
+    | otherwise -> pure ()
+  Touched ->
+    modify jump
+  NewPillars height ->
+    modify $ \m -> m { pillars = generatePillars height <> pillars m }
 
 jump :: Model -> Model
 jump m = m & transitionState & updatePlayerVelocity
 
-step :: Double -> Model -> Effect Action Model
+step :: Double -> Model -> Effect Model Action ()
 step newTime m = batchEff newModel (if shouldAddPillar then [ timeEffect, pillarsEffect ] else [ timeEffect ])
   where
     timeEffect = Time <$> now
@@ -121,7 +128,8 @@ updateScore m@Model{..} = m { pillars = newPillars, score = newScore }
 
 transitionState :: Model -> Model
 transitionState m@Model{..} =
-  if state == GameOver && playerOffScreen m then initialModel
+  if state == GameOver && playerOffScreen m
+  then initialModel
   else m { state = if state == Start then Play else state }
 
 updatePlayerVelocity :: Model -> Model
