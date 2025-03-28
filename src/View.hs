@@ -8,7 +8,7 @@ import           Constants
 import           Model
 
 mainView :: Model -> View Action
-mainView m@Model{..} = wrapper [ div_ [ style_ style', onClick Touched ] content ]
+mainView m = wrapper [ div_ [ style_ style', onClick Touched ] content ]
   where
     style' = M.fromList
       [ ("width", (ms gameWidth) <> "px")
@@ -41,7 +41,7 @@ pillarsView :: Model -> View action
 pillarsView m@Model{..} = wrapper $ fmap (pillarView m) pillars
 
 pillarView :: Model -> Pillar -> View action
-pillarView Model{..} Pillar{..} =
+pillarView Model{} Pillar{..} =
   let imageName = if pillarKind == Top then "images/topRock.png" else "images/bottomRock.png"
   in image pillarWidth pillarHeight pillarX pillarY imageName
 
