@@ -10,7 +10,7 @@ import           System.Random
 import           Constants
 import           Model
 
-updateModel :: Action -> Effect Model Action ()
+updateModel :: Action -> Effect Model Action
 updateModel = \case
   Time newTime ->
     get >>= step newTime
@@ -25,7 +25,7 @@ updateModel = \case
 jump :: Model -> Model
 jump m = m & transitionState & updatePlayerVelocity
 
-step :: Double -> Model -> Effect Model Action ()
+step :: Double -> Model -> Effect Model Action
 step newTime m = batchEff newModel (if shouldAddPillar then [ timeEffect, pillarsEffect ] else [ timeEffect ])
   where
     timeEffect = Time <$> now
