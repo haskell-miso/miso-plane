@@ -26,7 +26,9 @@ jump :: Model -> Model
 jump m = m & transitionState & updatePlayerVelocity
 
 step :: Double -> Model -> Effect Model Action
-step newTime m = batchEff newModel (if shouldAddPillar then [ timeEffect, pillarsEffect ] else [ timeEffect ])
+step newTime m = do
+    put newModel
+    batch (if shouldAddPillar then [ timeEffect, pillarsEffect ] else [ timeEffect ])
   where
     timeEffect = Time <$> now
     pillarsEffect = NewPillars <$> randomRIO (minPillarHeight, gameHeight - minPillarHeight - round gapHeight)
