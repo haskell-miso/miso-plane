@@ -1,16 +1,16 @@
 module View where
 
-import qualified Data.Map    as M
 import           Miso
+import qualified Miso.CSS    as CSS
 import           Miso.String
 
 import           Constants
 import           Model
 
 mainView :: Model -> View Action
-mainView m = wrapper [ div_ [ style_ style', onClick Touched ] content ]
+mainView m = wrapper [ div_ [ CSS.style_ style', onClick Touched ] content ]
   where
-    style' = M.fromList
+    style' =
       [ ("width", (ms gameWidth) <> "px")
       , ("height", (ms gameHeight) <> "px")
       , ("overflow", "hidden")
@@ -52,9 +52,9 @@ messageView Model{..} = case state of
   _        -> emptyView
 
 scoreView :: Model -> View action
-scoreView Model{..} = p_ [ style_ style' ] [ text (ms score) ]
+scoreView Model{..} = p_ [ CSS.style_ style' ] [ text (ms score) ]
   where
-    style' = M.fromList
+    style' =
       [ ("display", "block")
       , ("height", "50px")
       , ("text-align", "center")
@@ -77,7 +77,7 @@ emptyView = wrapper []
 image :: Int -> Int -> Double -> Double -> MisoString -> View action
 image width height offsetX offsetY file = img_
   [ src_ file
-  , style_ $ M.fromList
+  , CSS.style_
     [ ("display", "block")
     , ("width", (ms width) <> "px")
     , ("height", (ms height) <> "px")
