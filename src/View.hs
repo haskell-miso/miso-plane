@@ -1,7 +1,7 @@
 module View where
 
 import           Miso
-import qualified Miso.CSS    as CSS
+import qualified Miso.Style    as CSS
 import           Miso.String
 
 import           Constants
