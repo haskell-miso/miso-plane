@@ -1,4 +1,6 @@
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeApplications #-}
 module Main where
 
 import           Miso
@@ -14,7 +16,7 @@ foreign export javascript "hs_start" main :: IO ()
 main :: IO ()
 main = do
   initialTime <- now
-  startComponent (defaultComponent initialModel updateModel mainView)
+  startComponent @"plane" (defaultComponent initialModel updateModel mainView)
     { subs = [ keyboardSub Keyboard ]
     , initialAction = Just (Time initialTime)
     }
