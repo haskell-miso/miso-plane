@@ -4,17 +4,16 @@ A flappy bird clone written in [Haskell](http://haskell.org/) with [Miso](https:
 
 ## Play
 
-https://miso-plane.lermex.net/
+- https://haskell-miso.github.io/miso-plane/
+- https://miso-plane.lermex.net/
 
-## Build
+## Build and run (Web Assembly)
 
-You'll need to have [Nix](https://nixos.org/nix/download.html).
-Then:
+Install [Nix Flakes](https://nixos.wiki/wiki/Flakes), then:
+
 ```
-nix-shell -A env
-make build
+nix develop
+make
+make serve
 ```
 
-You can then open the compiled html file manually.
-
-Optionally, `make open` uses npx and browserify to open the file with auto-reload.
