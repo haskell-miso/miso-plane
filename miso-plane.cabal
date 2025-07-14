@@ -5,10 +5,13 @@ category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
 
-executable client
+executable app
   if arch(wasm32)
     cpp-options:
       -DWASM
+    ghc-options:
+      -no-hs-main -optl-mexec-model=reactor "-optl-Wl,--export=hs_start"
+
   main-is:
     Main.hs
   hs-source-dirs:
@@ -21,7 +24,7 @@ executable client
   build-depends:
       base
     , containers
-    , ghcjs-base
+    -- , ghcjs-base
     , miso
     , mtl
     , random
@@ -41,3 +44,4 @@ executable client
     -Wincomplete-uni-patterns
     -Wredundant-constraints
     -fno-warn-missing-home-modules
+    -funbox-strict-fields -O2 -ferror-spans -fspecialise-aggressively -Wall

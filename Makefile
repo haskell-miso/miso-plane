@@ -1,12 +1,26 @@
-.PHONY: build open watch
 
-build: 
-		cabal v2-build --ghcjs --disable-optimization \
-		&& cp -r public/* dist-newstyle/build/x86_64-linux/ghcjs-8.4.0.1/miso-plane-0.1.0.0/x/client/noopt/build/client/client.jsexe/
+.PHONY= update build optim
 
-open:
-	cd dist-newstyle/build/x86_64-linux/ghcjs-8.4.0.1/miso-plane-0.1.0.0/x/client/noopt/build/client/client.jsexe/ \
-		&& npx browser-sync start --server --files "index.html" --single
+all: update build optim
 
-watch:
-	sos -p ".*hs\$$|.*cabal\$$" -c "make build"
+update:
+	wasm32-wasi-cabal update
+
+build:
+	wasm32-wasi-cabal build 
+	rm -rf public
+	cp -r static public
+	$(eval my_wasm=$(shell wasm32-wasi-cabal list-bin app | tail -n 1))
+	$(shell wasm32-wasi-ghc --print-libdir)/post-link.mjs --input $(my_wasm) --output public/ghc_wasm_jsffi.js
+	cp -v $(my_wasm) public/
+
+optim:
+	wasm-opt -all -O2 public/app.wasm -o public/app.wasm
+	wasm-tools strip -o public/app.wasm public/app.wasm
+
+serve:
+	http-server public
+
+clean:
+	rm -rf dist-newstyle public
+
