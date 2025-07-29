@@ -1,4 +1,4 @@
-# Miso Plane
+# 🛩️ 🍜 miso-plane
 
 A flappy bird clone written in [Haskell](http://haskell.org/) with [Miso](https://github.com/dmjio/miso) using assets by [Kenney](http://kenney.nl/assets/tappy-plane). Adapted with modifications from [Elm Plane](https://github.com/odedw/elm-plane).
 
