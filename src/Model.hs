@@ -1,22 +1,28 @@
+-----------------------------------------------------------------------------
 module Model where
-
+-----------------------------------------------------------------------------
 import qualified Data.Set    as S
-
+-----------------------------------------------------------------------------
 import           Constants
-
+-----------------------------------------------------------------------------
 data Action
   = Time Double
   | Keyboard (S.Set Int)
   | Touched
   | NewPillars Int
   deriving (Eq, Show)
-
-data State = Play | Start | GameOver
+-----------------------------------------------------------------------------
+data State
+  = Play
+  | Start
+  | GameOver
   deriving (Eq, Show)
-
-data PillarKind = Top | Bottom
+-----------------------------------------------------------------------------
+data PillarKind
+  = Top
+  | Bottom
   deriving (Eq, Show)
-
+-----------------------------------------------------------------------------
 data Pillar = Pillar
   { pillarX      :: Double
   , pillarY      :: Double
@@ -24,7 +30,7 @@ data Pillar = Pillar
   , pillarKind   :: PillarKind
   , pillarPassed :: Bool
   } deriving (Eq, Show)
-
+-----------------------------------------------------------------------------
 data Model = Model
   { state        :: State
   , foregroundX  :: Double
@@ -37,7 +43,7 @@ data Model = Model
   , time         :: Double
   , delta        :: Double
   } deriving (Eq, Show)
-
+-----------------------------------------------------------------------------
 initialModel :: Model
 initialModel = Model
   { state = Start
@@ -51,3 +57,4 @@ initialModel = Model
   , time = 0
   , delta = 0
   }
+-----------------------------------------------------------------------------

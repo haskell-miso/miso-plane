@@ -1,13 +1,14 @@
+-----------------------------------------------------------------------------
 module View where
-
+-----------------------------------------------------------------------------
 import           Miso
 import qualified Miso.Style    as CSS
 import           Miso.String
-
+-----------------------------------------------------------------------------
 import           Constants
 import           Model
-
-mainView :: Model -> View Action
+-----------------------------------------------------------------------------
+mainView :: Model -> View Model Action
 mainView m = wrapper [ div_ [ CSS.style_ style', onClick Touched ] content ]
   where
     style' =
@@ -26,32 +27,31 @@ mainView m = wrapper [ div_ [ CSS.style_ style', onClick Touched ] content ]
       , messageView m
       , scoreView m
       ]
-
-backgroundView :: Model -> View action
+-----------------------------------------------------------------------------
+backgroundView :: Model -> View Model action
 backgroundView Model{..} = wrapper
   [ image gameWidth gameHeight (negate backgroundX) 0 "images/background.png"
   , image gameWidth gameHeight ((fromIntegral gameWidth) - backgroundX) 0 "images/background.png"
   ]
-
-playerView :: Model -> View action
-playerView Model{..} =
-  image planeWidth planeHeight playerX y "images/plane.gif"
-
-pillarsView :: Model -> View action
+-----------------------------------------------------------------------------
+playerView :: Model -> View Model action
+playerView Model{..} = image planeWidth planeHeight playerX y "images/plane.gif"
+-----------------------------------------------------------------------------
+pillarsView :: Model -> View Model action
 pillarsView m@Model{..} = wrapper $ fmap (pillarView m) pillars
-
-pillarView :: Model -> Pillar -> View action
+-----------------------------------------------------------------------------
+pillarView :: Model -> Pillar -> View Model action
 pillarView Model{} Pillar{..} =
   let imageName = if pillarKind == Top then "images/topRock.png" else "images/bottomRock.png"
   in image pillarWidth pillarHeight pillarX pillarY imageName
-
-messageView :: Model -> View action
+-----------------------------------------------------------------------------
+messageView :: Model -> View Model action
 messageView Model{..} = case state of
   GameOver -> image 250 45 115 150 "images/textGameOver.png"
   Start    -> image 250 45 115 150 "images/textGetReady.png"
   _        -> emptyView
-
-scoreView :: Model -> View action
+-----------------------------------------------------------------------------
+scoreView :: Model -> View Model action
 scoreView Model{..} = p_ [ CSS.style_ style' ] [ text (ms score) ]
   where
     style' =
@@ -67,14 +67,14 @@ scoreView Model{..} = p_ [ CSS.style_ style' ] [ text (ms score) ]
       , ("font-family", "Helvetica, Arial, sans-serif")
       , ("text-shadow", "-1px 0 #005000, 0 1px #005000, 1px 0 #005000, 0 -1px #005000")
       ]
-
-wrapper :: [View action] -> View action
+-----------------------------------------------------------------------------
+wrapper :: [View Model action] -> View Model action
 wrapper = div_ []
-
-emptyView :: View action
+-----------------------------------------------------------------------------
+emptyView :: View Model action
 emptyView = wrapper []
-
-image :: Int -> Int -> Double -> Double -> MisoString -> View action
+-----------------------------------------------------------------------------
+image :: Int -> Int -> Double -> Double -> MisoString -> View Model action
 image width height offsetX offsetY file = img_
   [ src_ file
   , CSS.style_
@@ -85,3 +85,4 @@ image width height offsetX offsetY file = img_
     , ("transform", ms $ "matrix(1,0,0,1," ++ show offsetX ++ ", " ++ show offsetY ++ ")")
     ]
   ]
+-----------------------------------------------------------------------------
