@@ -1,13 +1,13 @@
 -----------------------------------------------------------------------------
 module Model where
 -----------------------------------------------------------------------------
-import qualified Data.Set    as S
+import           Data.IntSet (IntSet)
 -----------------------------------------------------------------------------
 import           Constants
 -----------------------------------------------------------------------------
 data Action
   = Time Double
-  | Keyboard (S.Set Int)
+  | Keyboard IntSet
   | Touched
   | NewPillars Int
   deriving (Eq, Show)

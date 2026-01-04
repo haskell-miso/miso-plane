@@ -5,7 +5,7 @@ module Update where
 -----------------------------------------------------------------------------
 import           Control.Monad.State hiding ( state )
 import           Data.Function
-import qualified Data.Set as S
+import qualified Data.IntSet as S
 -----------------------------------------------------------------------------
 import           System.Random
 import           Miso
