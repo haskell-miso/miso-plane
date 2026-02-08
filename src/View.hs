@@ -2,8 +2,9 @@
 module View where
 -----------------------------------------------------------------------------
 import           Miso
-import qualified Miso.Style    as CSS
-import           Miso.String
+import qualified Miso.CSS    as CSS
+import           Miso.Html
+import           Miso.Html.Property
 -----------------------------------------------------------------------------
 import           Constants
 import           Model
