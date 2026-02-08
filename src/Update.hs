@@ -13,7 +13,7 @@ import           Miso
 import           Constants
 import           Model
 -----------------------------------------------------------------------------
-updateModel :: Action -> Transition Model Action
+updateModel :: Action -> Effect parent Model Action
 updateModel = \case
   Time newTime ->
     get >>= step newTime
@@ -28,7 +28,7 @@ updateModel = \case
 jump :: Model -> Model
 jump m = m & transitionState & updatePlayerVelocity
 -----------------------------------------------------------------------------
-step :: Double -> Model -> Transition Model Action
+step :: Double -> Model -> Effect parent Model Action
 step newTime m = do
     put newModel
     batch (if shouldAddPillar then [ timeTransition, pillarsTransition ] else [ timeTransition ])
