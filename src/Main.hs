@@ -15,7 +15,7 @@ foreign export javascript "hs_start" main :: IO ()
 #endif
 -----------------------------------------------------------------------------
 main :: IO ()
-main = run $ do
+main = do
   initialTime <- now
   startComponent (component initialModel updateModel mainView)
     { subs = [ keyboardSub Keyboard ]
