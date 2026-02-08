@@ -19,6 +19,6 @@ main = run $ do
   initialTime <- now
   startComponent (component initialModel updateModel mainView)
     { subs = [ keyboardSub Keyboard ]
-    , initialAction = Just (Time initialTime)
+    , mount = Just (Time initialTime)
     }
 -----------------------------------------------------------------------------
